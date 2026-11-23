@@ -1,5 +1,37 @@
 # Unit Converter Assistant
 
+## Smart Dukaan Shopkeeper Desk
+
+This repository also includes a dependency-free browser app for product pricing, calculations, local transaction history, compatible unit conversions, and a deterministic helper. It works offline after its first visit and saves data in the current browser profile. The original Python terminal/Tkinter and local Ollama/LangChain project remains available below.
+
+Run the browser app from the repository root:
+
+```powershell
+python -m http.server 8000
+```
+
+Open [http://localhost:8000](http://localhost:8000). On Android Chrome, use **Install app** / **Add to Home screen**. A first-time browser profile starts with editable Cooking Oil, Rice, Sugar, and Toor Dal demo products; returning profiles keep their saved catalogue. Products, settings, and up to 1,000 calculations stay in browser local storage. Use Settings → Download data backup before clearing browser data.
+
+### Browser app architecture and limits
+
+- `index.html`, `styles.css`, `app.js`: responsive browser UI and local workflows.
+- `calc-core.js`: shared deterministic price/quantity and unit-conversion functions.
+- `sw.js`, `manifest.webmanifest`, `icon.svg`: install metadata and cached application shell.
+- No backend, account system, cloud sync, API key, or external AI provider is configured. The local assistant handles simple product listing, named-product amount calculations, and unit conversion by calling deterministic application functions; it is not a general-purpose LLM assistant.
+- Data is browser-local; there is no server database or cross-device synchronization.
+
+Run calculator logic checks with Node.js:
+
+```powershell
+node --test tests/calc-core.test.js
+```
+
+### Vercel deployment
+
+`vercel.json` and `scripts/build-static.js` configure a no-dependency static deployment. The build copies only the browser app assets into `dist/`; Python source, docs, and tests are not part of the deployed output. Import the repository in Vercel from its repository root. No environment variables are required. Vercel's [static site build settings](https://vercel.com/docs/builds/configure-a-build) support this no-framework workflow.
+
+For local CLI deployment, install and authenticate the Vercel CLI from Vercel's official instructions, then run `vercel` from the repository root and follow the project linking prompts.
+
 A small terminal-based Agentic AI project that converts length and weight units with a locally running Ollama model (`qwen2.5:3b`). It uses one LangChain tool, `convert_units`, and LangChain's current `create_agent()` API.
 
 ## Why this is Agentic AI
